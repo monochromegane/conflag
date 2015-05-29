@@ -21,7 +21,12 @@ func (c conf) toArgs(positions ...string) []string {
 
 	var args []string
 	for k, v := range nowConf {
-		args = append(args, "-"+k, fmt.Sprintf("%v", v))
+		switch v.(type) {
+		case bool:
+			args = append(args, fmt.Sprintf("-%s=%t", k, v.(bool)))
+		default:
+			args = append(args, "-"+k, fmt.Sprintf("%v", v))
+		}
 	}
 
 	return args
