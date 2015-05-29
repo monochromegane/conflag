@@ -2,12 +2,16 @@ package conflag
 
 import (
 	"fmt"
+	"os"
 	"path/filepath"
 
 	"github.com/BurntSushi/toml"
 )
 
 func ArgsFrom(conf string, positions ...string) ([]string, error) {
+	if _, err := os.Stat(conf); err == nil {
+		return nil, err
+	}
 	return parse(conf, positions...)
 }
 
