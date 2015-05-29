@@ -2,6 +2,7 @@ package conflag
 
 import (
 	"fmt"
+	"io"
 	"os"
 	"path/filepath"
 
@@ -9,7 +10,7 @@ import (
 )
 
 func ArgsFrom(conf string, positions ...string) ([]string, error) {
-	if _, err := os.Stat(conf); err == nil {
+	if _, err := os.Stat(conf); err != nil {
 		return nil, err
 	}
 	return parse(conf, positions...)
@@ -17,10 +18,15 @@ func ArgsFrom(conf string, positions ...string) ([]string, error) {
 
 func parse(file string, positions ...string) ([]string, error) {
 	var conf conf
-	var err error
+
+	r, err := os.Open(file)
+	if err != nil {
+		return nil, err
+	}
+
 	switch filepath.Ext(file) {
 	case ".toml":
-		conf, err = parseAsToml(file)
+		conf, err = parseAsToml(r)
 	}
 	if err != nil {
 		return nil, err
@@ -28,9 +34,9 @@ func parse(file string, positions ...string) ([]string, error) {
 	return conf.toArgs(positions...), nil
 }
 
-func parseAsToml(file string) (conf, error) {
+func parseAsToml(r io.Reader) (conf, error) {
 	var conf conf
-	_, err := toml.DecodeFile(file, &conf)
+	_, err := toml.DecodeReader(r, &conf)
 	if err != nil {
 		return nil, err
 	}
