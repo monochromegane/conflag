@@ -7,6 +7,6 @@ import (
 )
 
 func main() {
-	args, err := conflag.ArgsFrom("test.toml", "args")
+	args, err := conflag.ArgsFrom("test.json", "args")
 	fmt.Printf("%v, %v\n", args, err)
 }
