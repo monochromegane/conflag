@@ -10,7 +10,7 @@ func (c conf) toArgs(positions ...string) []string {
 	for _, p := range positions {
 		nextConf, ok := nowConf[p]
 		if !ok {
-			break
+			return []string{}
 		}
 		n, ok := nextConf.(map[string]interface{})
 		if !ok {
@@ -22,6 +22,8 @@ func (c conf) toArgs(positions ...string) []string {
 	var args []string
 	for k, v := range nowConf {
 		switch v.(type) {
+		case map[string]interface{}: // nested configuration
+			continue
 		case bool:
 			args = append(args, fmt.Sprintf("-%s=%t", k, v.(bool)))
 		default:
