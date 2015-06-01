@@ -38,14 +38,13 @@ func TestParseJson(t *testing.T) {
 
 	for _, a := range asserts {
 		reader := strings.NewReader(a.configString)
-
 		actual, err := parseAsJson(reader)
 		if err != nil {
-			t.Errorf("parse error: %v", a.configString)
+			t.Errorf("Unexpected parse error: %v, for input %#v", err, a.configString)
 		}
 
 		if !reflect.DeepEqual(a.expected, actual.asMap()) {
-			t.Errorf("not match: %#v %#v", a.expected, actual.asMap())
+			t.Errorf("Parsed result should be %#v, but %#v", a.expected, actual.asMap())
 		}
 	}
 }
@@ -59,7 +58,7 @@ func TestParseJson_ParseError(t *testing.T) {
 		reader := strings.NewReader(a.configString)
 		_, err := parseAsJson(reader)
 		if a.expected.MatchString(err.Error()) {
-			t.Errorf("parse error: %v", err)
+			t.Errorf("Unexpected parse error: %v", err)
 		}
 	}
 }
@@ -81,13 +80,12 @@ func TestParseYaml(t *testing.T) {
 	for _, a := range asserts {
 		reader := strings.NewReader(a.configString)
 		actual, err := parseAsYaml(reader)
-
 		if err != nil {
-			t.Errorf("parse error: %v %v", err, a.configString)
+			t.Errorf("Unexpected parse error: %v, for input %#v", err, a.configString)
 		}
 
 		if !reflect.DeepEqual(a.expected, actual.asMap()) {
-			t.Errorf("not match: %#v %#v", a.expected, actual.asMap())
+			t.Errorf("Parsed result should be %#v, but %#v", a.expected, actual.asMap())
 		}
 	}
 }
@@ -101,7 +99,7 @@ func TestParseYaml_ParseError(t *testing.T) {
 		reader := strings.NewReader(a.configString)
 		_, err := parseAsYaml(reader)
 		if !a.expected.MatchString(err.Error()) {
-			t.Errorf("expected error but")
+			t.Errorf("Unexpected parse error: %v", err)
 		}
 	}
 }
