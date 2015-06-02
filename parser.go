@@ -19,6 +19,7 @@ func parse(file string, positions ...string) ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer r.Close()
 
 	switch filepath.Ext(file) {
 	case ".toml":
