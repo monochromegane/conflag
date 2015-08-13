@@ -10,7 +10,7 @@ import (
 
 type ParseTest struct {
 	configString string
-	expected     map[string]interface{}
+	expected     interface{}
 }
 
 type ParseErrorTest struct {
@@ -128,6 +128,20 @@ func TestParseYaml(t *testing.T) {
 			"flag1: value1\nflag2: value2\n",
 			map[string]interface{}{"flag1": "value1", "flag2": "value2"},
 		},
+		ParseTest{
+`env1:
+  flag1: value1
+  flag2: "value2"
+# line comment
+env2:
+  flag1: 12345	# inline comment
+  flag2: -1.41421356`,
+			interface{}(map[string]interface{}{
+				"env1":map[interface{}]interface{}{"flag1": "value1", "flag2": "value2"},
+				"env2":map[interface{}]interface{}{"flag1": 12345, "flag2": -1.41421356},
+			}),
+		},
+
 	}
 
 	for _, a := range asserts {
