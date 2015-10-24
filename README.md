@@ -57,6 +57,20 @@ hoge = "fuga"
 conflag.ArgsFrom("/path/to/config.toml", "options")
 ```
 
+### go-flags
+
+If you use [go-flags](https://github.com/jessevdk/go-flags) package, you can specify options like the following.
+
+```go
+parser := go-flags.NewParser(&opts, go-flags.Default)
+
+conflag.LongHyphen = true
+conflag.BoolValue = false
+if args, err := conflag.ArgsFrom("/path/to/config.toml"); err == nil {
+        parser.ParseArgs(args)
+}
+```
+
 ## Features
 
 - Combine command-line flag and configuration file.

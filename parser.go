@@ -32,7 +32,10 @@ func parse(file string, positions ...string) ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	return conf.toArgs(positions...), nil
+	return conf.toArgs(option{
+		boolValue:  BoolValue,
+		longHyphen: LongHyphen,
+	}, positions...), nil
 }
 
 func parseAsToml(r io.Reader) (conf, error) {
