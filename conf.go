@@ -29,7 +29,7 @@ ConfLoop:
 		}
 		// Convert map[interface{}] to map[string]
 		tmp := map[string]interface{}{}
-		for k, v := range(n2) {
+		for k, v := range n2 {
 			key, ok := k.(string)
 			if !ok {
 				continue ConfLoop
@@ -50,6 +50,10 @@ ConfLoop:
 		switch v.(type) {
 		case map[string]interface{}: // nested configuration
 			continue
+		case []interface{}:
+			for _, a := range v.([]interface{}) {
+				args = append(args, name, fmt.Sprintf("%v", a))
+			}
 		case bool:
 			if opt.boolValue {
 				args = append(args, fmt.Sprintf("%s=%t", name, v.(bool)))

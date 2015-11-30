@@ -57,6 +57,16 @@ hoge = "fuga"
 conflag.ArgsFrom("/path/to/config.toml", "options")
 ```
 
+### List
+
+You can use list for multiple parameters.
+The following toml makes `-flag value1 -flag value2` arguments.
+
+```toml
+flag = [ "value1", "value2" ]
+```
+
+
 ### go-flags
 
 If you use [go-flags](https://github.com/jessevdk/go-flags) package, you can specify options like the following.
@@ -75,8 +85,10 @@ if args, err := conflag.ArgsFrom("/path/to/config.toml"); err == nil {
 
 - Combine command-line flag and configuration file.
 - Specify configration section.
+- Specify list parameters.
 - Support TOML configuration file.
 - Support JSON configuration file.
+- Support YAML configuration file.
 
 ## Installation
 

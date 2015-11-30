@@ -37,6 +37,16 @@ func TestToArgs_Bool(t *testing.T) {
 	}
 }
 
+func TestToArgs_List(t *testing.T) {
+	c := conf{"flag": []interface{}{"value1", "value2"}}
+	expect := []string{"-flag", "value1", "-flag", "value2"}
+	actual := c.toArgs(defaultOption())
+
+	if !reflect.DeepEqual(expect, actual) {
+		t.Errorf("args should be %v, but %v", expect, actual)
+	}
+}
+
 func TestToArgs_Positions(t *testing.T) {
 	asserts := []assert{
 		// options in options section.
